@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{school_student.firstname }}  {{school_student.lastname }}</h1>
+<table class="table table-hover table-striped">
+    <tbody>
+    <tr>
+    <td> voornaam: {{ school_student.firstname}}</td>
+    </tr>
+    <tr>
+        <td> achternaam: {{ school_student.lastname}}</td>
+    </tr>
+    <tr>
+        <td> Leeftijd: {{ school_student.age}}</td>
+    </tr>
+
+    <tr>
+        <td> Email: {{ school_student.email}}</td>
+    </tr>
+    <tr>
+        <td> Klas: {{ school_student.getSchoolgroup.name}} </td>
+    </tr>
+
+
+
+    </tbody>
+</table>
+{% endblock %}

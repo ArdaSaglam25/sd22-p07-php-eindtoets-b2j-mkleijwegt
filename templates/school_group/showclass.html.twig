@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Naam</th>
+            <th>achternaam</th>
+            <th>leeftijd</th>
+            <th>email</th>
+            <th>acties</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for students in school_students.getStudents() %}
+            <tr>
+                <td>{{ students.firstname }}</td>
+                <td>{{ students.lastname }}</td>
+                <td>{{ students.age }}</td>
+                <td>{{ students.email }}</td>
+                <td>  <a href="{{ path('app_show_student', {id: students.id}) }}" ><button class="btn btn-info" >Toon student</button> </a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

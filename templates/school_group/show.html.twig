@@ -18,6 +18,9 @@
                 <td>{{ group.name }}</td>
                 <td>{{ group.year }}</td>
                 <td>{{ group.teacher }}</td>
+                <td>  <a href="{{ path('app_show_class', {id: group.id}) }}" ><button class="btn btn-success" >Toon student</button> </a></td>
+                <td>  <a href="{{ path('app_show_student', {id: group.id}) }}" ><button class="btn btn-dark" >Nieuwe student</button> </a></td>
+
             </tr>
         {% endfor %}
     </tbody>
