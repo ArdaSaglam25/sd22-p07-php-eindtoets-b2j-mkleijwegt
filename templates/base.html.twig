@@ -25,7 +25,13 @@
     {% include('nav.html.twig') %}
     <header class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
-            {# Flash messages can be insterted here!! #}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
     </header>

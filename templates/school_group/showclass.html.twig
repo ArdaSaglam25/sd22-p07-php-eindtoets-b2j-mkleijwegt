@@ -2,6 +2,7 @@
 
 
 {% block body %}
+    <h1>STUDENTEN VAN {{ school_students.name }}</h1>
 
     <table class="table table-hover table-striped">
         <thead>
@@ -21,6 +22,7 @@
                 <td>{{ students.age }}</td>
                 <td>{{ students.email }}</td>
                 <td>  <a href="{{ path('app_show_student', {id: students.id}) }}" ><button class="btn btn-info" >Toon student</button> </a></td>
+                <td>  <a href="{{ path('delete_student', {id: students.id}) }}" ><button class="btn btn-danger" >wis student</button> </a></td>
             </tr>
         {% endfor %}
         </tbody>

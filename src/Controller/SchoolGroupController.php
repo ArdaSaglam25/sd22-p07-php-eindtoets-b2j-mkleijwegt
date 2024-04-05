@@ -50,28 +50,40 @@ class SchoolGroupController extends AbstractController
         ]);
     }
 
-    #[Route('/student_form', name: 'student_form')]
-    public function Form(EntityManagerInterface $entityManager, Request $request, int $id): Request
+    #[Route('/student_form/{id}', name: 'student_form')]
+    public function Form(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
         $schoolgroup = $entityManager->getRepository(SchoolGroup::class)->find($id);
-//        $student =
+
         $form = $this->createForm(StudentType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $student = $form->getData();
-            $entityManager->persist('');
+            $student->setSchoolgroup($schoolgroup);
+            $entityManager->persist($student);
             $entityManager->flush();
+            $this->addFlash('success', 'student is toegevoed!');
 
             // ... perform some action, such as saving the task to the database
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('app_show_class',['id' => $schoolgroup->getId()]);
         }
 
         return $this->render('school_group/student_form.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'klas' => $schoolgroup
         ]);
+    }
+    #[Route('/delete-student/{id}', name: 'delete_student')]
+    public function deleteStudent(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $student = $entityManager->getRepository(Student::class)->find($id);
+        $entityManager->remove($student);
+        $entityManager->flush();
+        $this->addFlash('danger', 'student is verwijderd!');
+
+        return $this->redirectToRoute('app_show_class',['id' => $student->getSchoolgroup()->getId()]);
+
     }
 }
