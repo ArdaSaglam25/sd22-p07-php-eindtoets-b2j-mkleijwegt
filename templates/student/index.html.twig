@@ -1,0 +1,16 @@
+<?php{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{ user.getFirstName() }}!{% endblock %}
+
+{% block body %}
+    <div class="container-md">
+<div class="row">
+    <div class="col-md-12">
+        <h1>
+            Hi, {{ user.getFullName() }}!
+        </h1>
+    </div>
+</div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block body %}
+    <h1>Voeg een nieuwe student toe</h1>
+
+    {{ form_errors(form) }}
+    <div class="container-md">
+        {{ form_start(form) }}
+        <div class="row row-gap-3">
+            <div class="col-md-6">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.age) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.school_group) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.courses) }}
+                <small>Kies meerdere door ctrl ingedrukt te houden!</small>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-secondary w-50">Voeg student toe</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+
+
+    </div>
+
+{% endblock %}

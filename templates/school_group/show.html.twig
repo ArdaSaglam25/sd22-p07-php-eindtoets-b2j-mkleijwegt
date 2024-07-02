@@ -1,28 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1 class="masthead-heading text-uppercase mb-0">
-    Klassen overzicht
-</h1>
-<table class="table table-hover table-striped">
-    <thead>
-    <tr>
-        <th>Naam</th>
-        <th>Jaar</th>
-        <th>SLB'er</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for group in school_groups %}
-            <tr>
-                <td>{{ group.name }}</td>
-                <td>{{ group.year }}</td>
-                <td>{{ group.teacher }}</td>
-                <td>  <a href="{{ path('app_show_class', {id: group.id}) }}" ><button class="btn btn-success" >Toon student</button> </a></td>
-                <td>  <a href="{{ path('student_form', {id: group.id}) }}" ><button class="btn btn-dark" >Nieuwe student</button> </a></td>
+    <div class="row">
+        {#    SPACER COL    #}
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h1 class="masthead-heading text-uppercase mb-0">
+                Klassen overzicht
+            </h1>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Jaar</th>
+                    <th>SLB'er</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for group in school_groups %}
+                    <tr>
+                        <td>{{ group.name }}</td>
+                        <td>{{ group.year }}</td>
+                        <td>{{ group.teacher }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {#    SPACER COL    #}
+        <div class="col-md-2"></div>
+    </div>
 
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
 {% endblock %}
+

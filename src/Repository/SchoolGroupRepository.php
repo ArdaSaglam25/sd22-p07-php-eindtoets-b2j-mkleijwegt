@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Repository;
 
 use App\Entity\SchoolGroup;
@@ -21,7 +22,6 @@ class SchoolGroupRepository extends ServiceEntityRepository
         parent::__construct($registry, SchoolGroup::class);
     }
 
-//    /**
 //     * @return SchoolGroup[] Returns an array of SchoolGroup objects
 //     */
 //    public function findByExampleField($value): array
@@ -46,3 +46,4 @@ class SchoolGroupRepository extends ServiceEntityRepository
 //        ;
 //    }
 }
+

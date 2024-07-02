@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -14,46 +16,43 @@ class Student
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $lastname = null;
+    private ?string $name = null;
 
     #[ORM\Column]
     private ?int $age = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $email = null;
-
     #[ORM\ManyToOne(inversedBy: 'students')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?SchoolGroup $schoolgroup = null;
+    private ?SchoolGroup $school_group = null;
+
+    #[ORM\ManyToMany(targetEntity: Course::class, inversedBy: 'students')]
+    private Collection $courses;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function setId(int $id): static
     {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): static
-    {
-        $this->firstname = $firstname;
+        $this->id = $id;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getName(): ?string
     {
-        return $this->lastname;
+        return $this->name;
     }
 
-    public function setLastname(string $lastname): static
+    public function setName(string $name): static
     {
-        $this->lastname = $lastname;
+        $this->name = $name;
 
         return $this;
     }
@@ -70,26 +69,38 @@ class Student
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getSchoolGroup(): ?SchoolGroup
     {
-        return $this->email;
+        return $this->school_group;
     }
 
-    public function setEmail(?string $email): static
+    public function setSchoolGroup(?SchoolGroup $school_group): static
     {
-        $this->email = $email;
+        $this->school_group = $school_group;
 
         return $this;
     }
 
-    public function getSchoolgroup(): ?SchoolGroup
+    /**
+     * @return Collection<int, Course>
+     */
+    public function getCourses(): Collection
     {
-        return $this->schoolgroup;
+        return $this->courses;
     }
 
-    public function setSchoolgroup(?SchoolGroup $schoolgroup): static
+    public function addCourse(Course $course): static
     {
-        $this->schoolgroup = $schoolgroup;
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Course $course): static
+    {
+        $this->courses->removeElement($course);
 
         return $this;
     }

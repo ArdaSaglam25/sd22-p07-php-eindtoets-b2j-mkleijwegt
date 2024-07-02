@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\SchoolGroupRepository;
+use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SchoolGroupRepository::class)]
-class SchoolGroup
+#[ORM\Entity(repositoryClass: CourseRepository::class)]
+class Course
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,13 +18,13 @@ class SchoolGroup
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $year = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $teacher = null;
+    private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'school_group', targetEntity: Student::class)]
+    #[ORM\Column]
+    private ?int $minimum_age = null;
+
+    #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'courses')]
     private Collection $students;
 
     public function __construct()
@@ -35,6 +35,13 @@ class SchoolGroup
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -49,26 +56,26 @@ class SchoolGroup
         return $this;
     }
 
-    public function getYear(): ?int
+    public function getDescription(): ?string
     {
-        return $this->year;
+        return $this->description;
     }
 
-    public function setYear(int $year): static
+    public function setDescription(string $description): static
     {
-        $this->year = $year;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getTeacher(): ?string
+    public function getMinimumAge(): ?int
     {
-        return $this->teacher;
+        return $this->minimum_age;
     }
 
-    public function setTeacher(string $teacher): static
+    public function setMinimumAge(int $minimum_age): static
     {
-        $this->teacher = $teacher;
+        $this->minimum_age = $minimum_age;
 
         return $this;
     }
@@ -85,7 +92,7 @@ class SchoolGroup
     {
         if (!$this->students->contains($student)) {
             $this->students->add($student);
-            $student->setSchoolGroup($this);
+            $student->addCourse($this);
         }
 
         return $this;
@@ -94,10 +101,7 @@ class SchoolGroup
     public function removeStudent(Student $student): static
     {
         if ($this->students->removeElement($student)) {
-            // set the owning side to null (unless already changed)
-            if ($student->getSchoolGroup() === $this) {
-                $student->setSchoolGroup(null);
-            }
+            $student->removeCourse($this);
         }
 
         return $this;
